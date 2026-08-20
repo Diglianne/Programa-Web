@@ -1,0 +1,15 @@
+from django.db import models
+
+# Create your models here.
+#classe de dados a ser utilizada para relacionamento entre objetos (quando instanciada)
+#E também, como vinculação com banco de dados
+class Estudante(models.Model):
+    matricula = models.IntegerField()
+    nome = models.CharField(max_length=120)
+    telefone = models.CharField(max_length=12)
+    emai = models.EmailField(unique=True)
+    nascimento = models.DateField()
+    senha = models.CharField(max_length=16)
+
+    def __str__(self):
+        return self.nome
