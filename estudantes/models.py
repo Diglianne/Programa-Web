@@ -7,7 +7,7 @@ class Estudante(models.Model):
     matricula = models.IntegerField()
     nome = models.CharField(max_length=120)
     telefone = models.CharField(max_length=12)
-    emai = models.EmailField(unique=True)
+    email = models.EmailField(unique=True)
     nascimento = models.DateField()
     senha = models.CharField(max_length=16)
 
