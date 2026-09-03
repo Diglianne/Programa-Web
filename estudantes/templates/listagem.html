@@ -16,7 +16,6 @@
             <td> Email </td>
             <td> Senha </td>
             <td> Telefone </td>
-            <td> Curso</td>
             <td> Nascimento</td>
             <td> Ações </td>
         </tr>
@@ -24,17 +23,17 @@
         <tr class="text-center">
             <td>{{ forloop.counter }}</td>
             <td>{{ est.nome }}</td>
-            <td><img src="/midia/{{ reg.foto }}"class="rounded-circle" height="70px" width="70px"></td>
+            <td><img src="/midias/{{ est.foto }}"class="rounded-circle" height="70px" width="70px"></td>
             <td>{{ est.email}}</td>
             <td>{{ est.senha}}</td>
             <td>{{ est.telefone}}</td>
             <td>{{ est.nascimento}} </td> 
-            <td> <a href="/editar/{{est.id}}" class="btn btn-success">Editar</a>/
-                <a href="/deletar/{{est.id}}" class="btn btn-danger">Apagar</a>/
-                <a href="/visualizar/{{est.id}}" class="btn btn-primary">Ver</a>
+            <td> <a href="/editar/{{ est.id }}" class="btn btn-success" > Editar</a>/
+                 <a href="/deletar/{{ est.id }}" class="btn btn-danger" > Apagar</a>/
+                 <a href="/visualizar/{{ est.id }}" class="btn btn-primary" > Ver</a>
             </td>
         </tr>
-    {%endfor%}
+        {% endfor %}
     </table>
 </div>
 </body>

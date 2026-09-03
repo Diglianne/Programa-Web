@@ -9,22 +9,33 @@ from estudantes.models import Estudante
 #-- de estudantes
 
 
-def editarEstudantes(request):
-    return HttpResponse('<h2>Editando o estudante fulano de tal</h2>')
+
+def editarEstudantes(request, id = None):
+    estudante = Estudante.objects.get(pk = id)
+    aluno = EstudanteForm(request.POST or None, request.FILES or None, instance = estudante)
+    if aluno.is_valid():
+            aluno.save()
+            return redirect('/')
+
+    dicionario = {
+            'form' : aluno
+        }
+    
+    return render(request, "editar.html", context = dicionario)
 
 #-- regra de negócio para adicionar estudante
 def adicionarEstudante(request):
-    print(request)
-    form = EstudanteForm(request.POST or None)
+    form = EstudanteForm(request.POST or None, request.FILES or None)
     if form.is_valid():
         form.save()
         return redirect('/')
+    
 
     dicionario = {
         'form' : form 
     }
 
-    return render(request, "estudante.html", dicionario)
+    return render(request, "adicionar.html", dicionario)
 
 def listarEstudantes(request):
     estudantes = Estudante.objects.all()
@@ -33,3 +44,11 @@ def listarEstudantes(request):
     }
 
     return render(request, 'listagem.html', contexto)
+
+def deletarEstudante(request, id=None):
+    estudante = Estudante.objects.get(pk=id)
+    estudante.delete()
+    return redirect('/')
+
+
+

@@ -8,3 +8,5 @@ class EstudanteForm(forms.ModelForm):
         # fields = ('nome', 'email', 'telefone', 'nascimento', 'senha')
          fields = '__all__'
 
+        
+
