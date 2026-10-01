@@ -24,7 +24,7 @@ def editarEstudantes(request, id = None):
     return render(request, "editar.html", context = dicionario)
 
 #-- regra de negócio para adicionar estudante
-def adicionarEstudante(request):
+def criarEstudante(request):
     form = EstudanteForm(request.POST or None, request.FILES or None)
     if form.is_valid():
         form.save()
@@ -35,20 +35,31 @@ def adicionarEstudante(request):
         'form' : form 
     }
 
-    return render(request, "adicionar.html", dicionario)
+    return render(request, "estudantes/adicionar.html", dicionario)
 
 def listarEstudantes(request):
-    estudantes = Estudante.objects.all()
+    estudante = Estudante.objects.all()
     contexto ={
-        'listaEst' : estudantes,
+        'estudantes' : estudante,
     }
 
-    return render(request, 'listagem.html', contexto)
+    return render(request, 'estudantes/listagem.html', contexto)
 
-def deletarEstudante(request, id=None):
-    estudante = Estudante.objects.get(pk=id)
+def deletarEstudante(request, pk=None):
+    estudante = Estudante.objects.get(id=pk)
     estudante.delete()
     return redirect('/')
 
+def atualizarEstudante(request, pk):
+    editar = Estudante.objects.get(pk=pk)
 
+    edicao = EstudanteForm(request.POST or None, request.FILES or None, instance=editar)
+    if edicao.is_valid():
+        edicao.save()
+        return redirect ('/')
 
+    dicionario = {
+     'form' : edicao
+    }
+
+    return render(request, 'estudantes/adicionar.html', context = dicionario)
