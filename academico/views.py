@@ -1,7 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from academico.models import Curso, Disciplina, Professor, Turma
 from estudantes.models import Estudante
+from academico.models import Professor
 
 # Create your views here.
 def dashboard(request):
@@ -17,14 +18,43 @@ def listarProfessores(request):
     }
     return render(request,'professores/listagem.html',contexto)
 
+
 def criarProfessor(request):
-    return render()
+    if request.method == "POST":
+        # Captura os dados enviados pelos campos do formulário HTML
+        matricula = request.POST.get('matricula')
+        nome = request.POST.get('nome')
+        email = request.POST.get('email')
+        telefone = request.POST.get('telefone')
+        data_nascimento = request.POST.get('data_nascimento')
+        senha = request.POST.get('senha')
+        foto = request.FILES.get('foto') # Para arquivos/fotos
 
-def deletarProfessor(request):
-    return render()
+        # Cria e salva o professor no banco de dados
+        Professor.objects.create(
+            matricula=matricula,
+            nome=nome,
+            email=email,
+            telefone=telefone,
+            data_nascimento=data_nascimento,
+            senha=senha,
+            foto=foto
+        )
+        # Redireciona de volta para a lista de professores após salvar
+        return redirect('listarProfessores') 
 
-def atualizarProfessor(request):
-    return render()
+    # Se for uma requisição GET, apenas mostra a página de cadastro
+    return render(request, 'professores/adicionar.html')
+
+def deletarProfessor(request, id):
+    professor = Professor.objects.get(id=id)
+    professor.delete()
+    return redirect('listarProfessores')
+
+def atualizarProfessor(request, id):
+    # Lógica de atualização (podemos fazer depois se quiser)
+    return render(request, 'professores/adicionar.html')
+
 
 def listarCursos(request):
     cursos = Curso.objects.all()
